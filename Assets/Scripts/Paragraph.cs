@@ -13,6 +13,12 @@ public class Paragraph : MonoBehaviour {
 	public Font font = LetterDef.DEFAULT_FONT;
 	public float spacing = LetterDef.DEFAULT_SPACING;
 
+	public void AddLetterRange(LetterDef[] defs){
+		foreach (LetterDef d in defs) {
+			AddLetter (d);
+		}
+	}
+
 	public void AddLetter(LetterDef def){
 		GameObject newLetterObject = Instantiate (letterPrefab.gameObject) as GameObject;
 		newLetterObject.transform.position = textLetters[textLetters.Count - 1].transform.position + new Vector3(spacing,0,0);

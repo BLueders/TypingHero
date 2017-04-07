@@ -9,7 +9,7 @@ public struct LetterDef
 	public static Font DEFAULT_FONT { 
 		get { 
 			if (_DEFAULT_FONT == null) {
-				_DEFAULT_FONT = Resources.GetBuiltinResource (typeof(Font), "Arial.ttf") as Font;
+				_DEFAULT_FONT = FontCache.GetDefaultFont ();
 			}
 			return _DEFAULT_FONT;
 		}
