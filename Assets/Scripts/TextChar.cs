@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Letter : MonoBehaviour
+public class TextChar : MonoBehaviour
 {
-	[SerializeField] Text uiText;
+	[SerializeField] Text uiText = null;
 
 	public Text Text { get { return uiText; } }
 	public float spacing;
 
-	private string _letter = "A";
-	public string letter { 
+	private char _theChar = 'a';
+	public char theChar { 
 		get { 
-			return _letter;
+			return _theChar;
 		} 
 		set { 
-			uiText.text = value; 
-			_letter = value;
+			uiText.text = value.ToString(); 
+			_theChar = value;
 		} 
 	}
 

@@ -6,6 +6,7 @@ public class FontCache
 {
 	private static Dictionary<string, Font> _KnownFonts;
 	private const string DEFAULT_FONT = "Arial.ttf";
+	private const string FONT_PATH = "Fonts/";
 
 	private static Dictionary<string, Font> KnownFonts{
 		get{if (_KnownFonts == null)
@@ -15,15 +16,16 @@ public class FontCache
 	}
 
 	public static Font GetFont(string fontName){
-		if (KnownFonts [fontName] == null) {
-			KnownFonts.Add (fontName, Resources.Load<Font> (typeof(Font), fontName) as Font);
+		if (!KnownFonts.ContainsKey(fontName)) {
+			Font newFont = Resources.Load<Font> (FONT_PATH + fontName);
+			KnownFonts.Add (fontName, newFont);
 		}
 		return KnownFonts [fontName];
 	}
 
 	public static Font GetDefaultFont(){
-		if (KnownFonts [DEFAULT_FONT] == null) {
-			KnownFonts.Add (DEFAULT_FONT, Resources.Load<Font> (typeof(Font), DEFAULT_FONT) as Font);
+		if (!KnownFonts.ContainsKey(DEFAULT_FONT)) {
+			KnownFonts.Add (DEFAULT_FONT, Resources.GetBuiltinResource<Font> (DEFAULT_FONT));
 		}
 		return KnownFonts [DEFAULT_FONT];
 	}

@@ -4,36 +4,53 @@ using UnityEngine;
 
 public class Paragraph : MonoBehaviour {
 
-	[SerializeField] Letter letterPrefab;
+	[SerializeField] TextChar letterPrefab = null;
 
-	List<Letter> textLetters = new List<Letter>();
+	List<TextChar> textChars = new List<TextChar>();
 
-	public int fontSize = LetterDef.DEFAULT_FONTSIZE;
-	public float textSize = LetterDef.DEFAULT_SIZE;
-	public Font font = LetterDef.DEFAULT_FONT;
-	public float spacing = LetterDef.DEFAULT_SPACING;
+	public int Count { get { return textChars.Count; } }
 
-	public void AddLetterRange(LetterDef[] defs){
-		foreach (LetterDef d in defs) {
-			AddLetter (d);
+	public void AddCharRange(TextCharDef[] defs){
+		foreach (TextCharDef d in defs) {
+			AddChar (d);
 		}
 	}
 
-	public void AddLetter(LetterDef def){
-		GameObject newLetterObject = Instantiate (letterPrefab.gameObject) as GameObject;
-		newLetterObject.transform.position = textLetters[textLetters.Count - 1].transform.position + new Vector3(spacing,0,0);
-		newLetterObject.transform.SetParent (transform);
-		Letter newLetter = newLetterObject.GetComponent<Letter> ();
-		newLetter.letter = def.letter;
-		newLetter.textSize = def.size;
-		newLetter.textColor = def.color;
-		newLetter.fontSize = def.fontSize;
-		newLetter.font = def.font;
+	public void AddChar(TextCharDef def){
+		GameObject newCharObject = Instantiate (letterPrefab.gameObject) as GameObject;
+		if (textChars.Count == 0) {
+			newCharObject.transform.position = transform.position;
+		} else {
+			newCharObject.transform.position = textChars[textChars.Count - 1].transform.position + new Vector3(def.spacing, 0, 0);
+		}
+		newCharObject.transform.SetParent (transform);
+		TextChar newChar = newCharObject.GetComponent<TextChar> ();
+		newChar.theChar = def.theChar;
+		newChar.textSize = def.size;
+		newChar.textColor = def.color;
+		newChar.fontSize = def.fontSize;
+		newChar.font = def.font;
+		newChar.spacing = def.spacing;
+		textChars.Add (newChar);
 	}
 
-	public void AddLetter(string letter){
-		LetterDef def = LetterDef.CreateDefault ();
-		def.letter = letter;
-		AddLetter (def);
+	public void AddChar(char c){
+		TextCharDef def = TextCharDef.CreateDefault ();
+		def.theChar = c;
+		AddChar (def);
+	}
+
+	public char IndexToChar(int index){
+		return textChars [index].theChar;
+	}
+
+	public TextChar IndexToTextChar(int index){
+		return textChars [index];
+	}
+
+	public Vector3 IndexToVector3(int index){
+		Vector3 pos = textChars [index].transform.position;
+		pos += Vector3.up * textChars [index].textSize;
+		return pos;
 	}
 }

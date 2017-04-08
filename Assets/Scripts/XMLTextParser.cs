@@ -16,42 +16,53 @@ public class XMLParser {
 	private const string SPACING_ATTRIBUTE = "spacing";
 	private const string COLOR_ATTRIBUTE = "color";
 
-	public static LevelText CreateLevelFromXML(string path, Vector3 startPos){
+	public static void CreateLevelFromXML(string path, Vector3 startPos){
+		
 		XmlDocument doc = new XmlDocument();
 		doc.Load(path);
-		XmlNode levelNode = doc.DocumentElement.SelectSingleNode(LEVEL_NODE);
+		XmlNode levelNode = doc.SelectSingleNode(LEVEL_NODE);
 
-		LevelText level = CreateLevelComponent (startPos);
+		LevelText.Initialize (startPos);
 
-		LetterDef currentDef = LetterDef.CreateDefault ();
+		TextCharDef currentDef = TextCharDef.CreateDefault ();
 
 		foreach(XmlNode node in levelNode.ChildNodes){
 			if (node.Name == PARAGRAPH_NODE) {
 				
-				Paragraph currentParagraph = CreateParagraphComponent (startPos);
-				currentParagraph.transform.SetParent (level.transform);
+				Paragraph currentParagraph = LevelText.AttachNewParagraph ();
 				currentDef = ChangeDefOnDemand (currentDef, node.Attributes);
 
-				foreach(XmlNode textNode in levelNode.ChildNodes){
-					if (node.Name == TEXT_NODE) {
-						
+				foreach(XmlNode textNode in node.ChildNodes){
+
+					if (textNode.Name == TEXT_NODE) {
+						string text = node.InnerText;
+						foreach (char c in text) {
+							char convertedC = c.ToString ().ToLower ().ToCharArray()[0];
+							if (ValidateChar (convertedC)) {
+								currentDef.theChar = convertedC;
+								currentParagraph.AddChar (currentDef);
+							}
+						}
 					}
-					if (node.Name == LETTER_NODE) {
-						
+
+					if (textNode.Name == LETTER_NODE) {
+						TextCharDef backup = currentDef;
+						currentDef = ChangeDefOnDemand (currentDef, node.Attributes);
+						char convertedC = node.InnerText.ToLower ().ToCharArray()[0];
+						if (ValidateChar (convertedC)) {
+							currentDef.theChar = convertedC;
+							currentParagraph.AddChar (currentDef);
+						}
+						currentDef = backup;
 					}
 				}
 			}
 		}
+		LevelText.RecalculateLength ();
 	}
 
 	public static Paragraph ParagraphFromText(string path){
-		
-	}
-
-	private static LevelText CreateLevelComponent(Vector3 pos){
-		GameObject levelObject = new GameObject ();
-		levelObject.transform.position = pos;
-		return levelObject.AddComponent<LevelText> ();
+		return null;
 	}
 
 	private static Paragraph CreateParagraphComponent (Vector3 pos)
@@ -61,7 +72,7 @@ public class XMLParser {
 		return levelObject.AddComponent<Paragraph> ();
 	}
 
-	private static LetterDef ChangeDefOnDemand(LetterDef def, XmlAttributeCollection attributes){
+	private static TextCharDef ChangeDefOnDemand(TextCharDef def, XmlAttributeCollection attributes){
 
 		if (attributes [FONT_ATTRIBUTE] != null) {
 			def.font = FontCache.GetFont (attributes [FONT_ATTRIBUTE].InnerText);
@@ -80,7 +91,13 @@ public class XMLParser {
 		}
 
 		if (attributes [COLOR_ATTRIBUTE] != null) {
-			def.font = ColorExtensions.ParseColor(attributes [COLOR_ATTRIBUTE].InnerText);
+			def.color = ColorExtension.ParseColor(attributes [COLOR_ATTRIBUTE].InnerText);
 		}
+
+		return def;
+	}
+
+								private static bool ValidateChar(char c){
+		return "abcdefghijklmnopqrstuvwxyz., ".Contains (c.ToString ());
 	}
 }

@@ -11,7 +11,7 @@ TrueTypeFontImporter:
   includeFontData: 1
   fontName: Courier Prime
   fontNames:
-  - Courier Prime
+  - CourierPrime
   fallbackFontReferences:
   - {fileID: 12800000, guid: 4f9b5f0898a8f02409b36e0e564559c4, type: 3}
   - {fileID: 12800000, guid: 2c3d8228f65e5cf418ef180a6c276d2c, type: 3}

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct LetterDef
+public struct TextCharDef
 {
 	private static Font _DEFAULT_FONT = null;
 
@@ -19,16 +19,16 @@ public struct LetterDef
 	public const int DEFAULT_FONTSIZE = 250;
 	public static readonly Color DEFAULT_COLOR = new Color(0,0,0);
 
-	public string letter;
+	public char theChar;
 	public Font font;
 	public float size;
 	public int fontSize;
 	public float spacing;
 	public Color color;
 
-	public static LetterDef CreateDefault(){
-		LetterDef def = new LetterDef ();
-		def.letter = "A";
+	public static TextCharDef CreateDefault(){
+		TextCharDef def = new TextCharDef ();
+		def.theChar = 'a';
 		def.font = DEFAULT_FONT;
 		def.size = DEFAULT_SIZE;
 		def.fontSize = DEFAULT_FONTSIZE;
