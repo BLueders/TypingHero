@@ -1,18 +1,24 @@
 <level>
 <paragraph font="CourierPrime" size="1" font-size="250" spacing="2" color="0,0,0,1">
 <text>
-Lorem ipsum dolor sit amet, 
+Lorem ipsum
 </text>
 </paragraph>
 
-<paragraph font="CourierPrime" size="1" font-size="250" spacing="1" color="1,0,0,1">
+<paragraph font="CourierPrime" size="2" font-size="250" spacing="2.5" color="0,0,0,1">
+<text>
+dolor sit amet, 
+</text>
+</paragraph>
+
+<paragraph font="CourierPrime" size="1" font-size="250" spacing="1.5" color="1,0,0,1">
 <text>
 sed velit postulant mnesarchum ne, cum ea discere ornatus platonem. 
  
 </text>
 </paragraph>
 
-<paragraph font="CourierPrime" size="1" font-size="250" spacing="1" color="0,1,0,1">
+<paragraph font="CourierPrime" size="0.5" font-size="250" spacing="1" color="0,1,0,1">
 <text>
 Diam torquatos pri te, cu usu omnis forensibus. Eum ferri labore meliore et.
 </text>

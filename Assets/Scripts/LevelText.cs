@@ -65,7 +65,7 @@ public class LevelText : MonoBehaviour {
 		// look for paragraph to start
 		int currentParagraphIndex = 0;
 		int maxLength = _instance.paragraphs [currentParagraphIndex].Count;
-		while (maxLength < index) {
+		while (maxLength <= index) {
 			currentParagraphIndex++;
 			maxLength += _instance.paragraphs [currentParagraphIndex].Count;
 		}
@@ -83,8 +83,8 @@ public class LevelText : MonoBehaviour {
 	}
 
 	public static int GetIndexOfClosestChar(char c, int start, int range){
-		int indexLeft = SearchCharLeft (c, start, range);
-		int indexRight = SearchCharRight (c, start, range);
+        int indexLeft = SearchCharLeft (c, start - 1, range);
+        int indexRight = SearchCharRight (c, start + 1, range);
 		int distanceLeft = start - indexLeft;
 		int distanceRight = indexRight - start;
 
@@ -94,7 +94,8 @@ public class LevelText : MonoBehaviour {
 		if (indexRight == -1) {
 			distanceRight = int.MaxValue;
 		}
-		return distanceLeft > distanceRight ? indexRight : indexLeft;
+        // prefer right over left if equal
+		return distanceLeft >= distanceRight ? indexRight : indexLeft;
 	}
 
 	public static int SearchCharLeft(char c, int start, int range){
